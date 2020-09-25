@@ -135,6 +135,28 @@ app.post('/event/:id/like',
 
     });
 
+app.post('/event/:id/likes', 
+    urlencodedParser, // second argument - how to parse the uploaded content
+    (req, res) => {        
+        request.post(  // first argument: url + data + formats
+            {
+                url: `${SERVER}/event/${req.params.id}/like`,  // the microservice end point for adding an event
+                body: req.body,  // content of the form
+                headers: { // uploading json
+                    "Content-Type": "application/json"
+                },
+                json: true // response from server will be json format
+            },
+            (error, response, body) => {  // third argument: function with three args,
+                if(error) {
+                    console.log(error)                
+                    res.status(500)
+                } else {
+                    res.send(body)
+                }
+            });
+
+    });
 
 
 // generic error handling
